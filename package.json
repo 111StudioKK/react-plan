@@ -1,0 +1,37 @@
+{
+  "name": "react-plan",
+  "version": "0.1.0",
+  "description": "A React Responsive Layout Library based on flexbox.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dist": "webpack --config webpack.dist.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/111StudioKK/react-plan.git"
+  },
+  "keywords": [
+    "React",
+    "Flexbox",
+    "Responsive",
+    "Layout"
+  ],
+  "author": "Florian Didron <florian@111studio.jp> (http://www.111studio.jp/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/111StudioKK/react-plan/issues"
+  },
+  "homepage": "https://github.com/111StudioKK/react-plan#readme",
+  "devDependencies": {
+    "babel-eslint": "6.0.2",
+    "babel-loader": "6.2.4",
+    "babel-plugin-typecheck": "3.8.0",
+    "babel-preset-es2015": "6.6.0",
+    "babel-preset-react": "6.5.0",
+    "eslint": "2.7.0",
+    "eslint-plugin-react": "4.3.0",
+    "webpack": "1.12.14",
+    "webpack-dev-server": "1.14.1"
+  }
+}
