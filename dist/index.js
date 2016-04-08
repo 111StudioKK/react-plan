@@ -59,6 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Row = exports.Responsive = exports.Item = exports.Column = undefined;
 
 	var _Column = __webpack_require__(4);
 
@@ -79,12 +80,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// this should be the entry point to your library
-	exports.default = {
-	  Column: _Column2.default,
-	  Item: _Item2.default,
-	  Responsive: _Responsive2.default,
-	  Row: _Row2.default
-	};
+	exports.Column = _Column2.default;
+	exports.Item = _Item2.default;
+	exports.Responsive = _Responsive2.default;
+	exports.Row = _Row2.default;
 
 /***/ },
 /* 1 */
@@ -188,7 +187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  className: _react2.default.PropTypes.string,
 	  debug: _react2.default.PropTypes.bool,
 	  itemDefaults: _react2.default.PropTypes.object,
-	  justify: _react2.default.PropTypes.oneOf(_utils.flexAlignments),
+	  justify: _react2.default.PropTypes.oneOf(_utils.flexJustifications),
 	  noWrap: _react2.default.PropTypes.bool,
 	  order: _react2.default.PropTypes.number,
 	  reverse: _react2.default.PropTypes.bool,
@@ -208,7 +207,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	exports.warning = warning;
-	var flexAlignments = exports.flexAlignments = ['auto', 'flex-start', 'flex-end', 'center', 'baseline', 'stretch'];
+	var flexAlignments = exports.flexAlignments = ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'];
+	var flexJustifications = exports.flexJustifications = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around'];
 
 	var defaultBreakpoints = exports.defaultBreakpoints = {
 	  small: '(min-width: 0em)',
