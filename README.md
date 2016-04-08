@@ -26,6 +26,7 @@ ReactDOM.render(<Responsive><App /></Responsive>, document.getElementById('root'
 ```
 
 By default the responsive breakpoints available are :
+
 1.  small: min-width: 0em
 2.  medium: min-width: 48em
 3.  large: min-width: 62em
