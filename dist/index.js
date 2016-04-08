@@ -142,7 +142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        //Assign breakpoint or default size
 	        if (size) {
-	          style.flex = typeof size === 'number' ? size : '1 ' + size;
+	          style.flex = typeof size === 'number' ? size : '0 0 ' + size;
 	        }
 	        //If the Item is a Row or Column apply specific flex container styles
 	        if (this.direction) {
