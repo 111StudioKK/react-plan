@@ -1,5 +1,5 @@
 import React from 'react'
-import {flexJustifications, flexAlignments, warning} from './utils.js';
+import {planTypes, flexJustifications, flexAlignments, warning} from './utils.js';
 
 class Item extends React.Component {
   constructor(props, context) {
@@ -47,7 +47,18 @@ class Item extends React.Component {
     let style = this.componentStyle(breakpoint);
     let className = (this.props.className) ? `${this.props.className} ${breakpoint}` : breakpoint;
     let children = (this.props.itemDefaults && this.direction) ?
-      React.Children.map(this.props.children, (child) => React.cloneElement(child, this.props.itemDefaults))
+      React.Children.map(this.props.children, (child) => {
+        if (planTypes.includes(child.type.name)) {
+          let props = Object.assign({}, this.props.itemDefaults, child.props);
+          props.className = [this.props.itemDefaults.className, child.props.className].join(' ').trim();
+          props.style = Object.assign({}, this.props.itemDefaults.style, child.props.style);
+          return React.cloneElement(child, props);
+        }
+        else {
+          return child;
+        }
+
+      })
       :
       this.props.children;
     return (style) ? <div className={className} style={style}>{children}</div> : null;

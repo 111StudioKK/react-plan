@@ -1,5 +1,8 @@
 export const flexAlignments = ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'];
+
 export const flexJustifications = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around'];
+
+export const planTypes = ['Item', 'Column', 'Row'];
 
 export const defaultBreakpoints = {
   small: '(min-width: 0em)',

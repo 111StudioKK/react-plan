@@ -169,7 +169,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var style = this.componentStyle(breakpoint);
 	      var className = this.props.className ? this.props.className + ' ' + breakpoint : breakpoint;
 	      var children = this.props.itemDefaults && this.direction ? _react2.default.Children.map(this.props.children, function (child) {
-	        return _react2.default.cloneElement(child, _this2.props.itemDefaults);
+	        if (_utils.planTypes.includes(child.type.name)) {
+	          var props = Object.assign({}, _this2.props.itemDefaults, child.props);
+	          props.className = [_this2.props.itemDefaults.className, child.props.className].join(' ').trim();
+	          props.style = Object.assign({}, _this2.props.itemDefaults.style, child.props.style);
+	          return _react2.default.cloneElement(child, props);
+	        } else {
+	          return child;
+	        }
 	      }) : this.props.children;
 	      return style ? _react2.default.createElement(
 	        'div',
@@ -219,7 +226,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.warning = warning;
 	var flexAlignments = exports.flexAlignments = ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'];
+
 	var flexJustifications = exports.flexJustifications = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around'];
+
+	var planTypes = exports.planTypes = ['Item', 'Column', 'Row'];
 
 	var defaultBreakpoints = exports.defaultBreakpoints = {
 	  small: '(min-width: 0em)',
