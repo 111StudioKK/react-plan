@@ -15,12 +15,13 @@ class Responsive extends Component {
   }
 
   componentWillMount() {
+    this.mounted = true;
     this.windowResizeHandler();
     window.addEventListener('resize', this.windowResizeHandler.bind(this));
   }
 
   componentWillUnmount() {
-    window.removeEventListener(this.windowResizeHandler);
+    this.mounted = false;
   }
 
   matchMediaQuery() {
@@ -30,11 +31,13 @@ class Responsive extends Component {
   }
 
   windowResizeHandler() {
+    if(this.mounted === true){
     let breakpoint = this.matchMediaQuery().slice(-1)[0];
     if(breakpoint !== this.state.breakpoint){
       this.setState({
         breakpoint: breakpoint
       });
+    }
     }
   }
 
