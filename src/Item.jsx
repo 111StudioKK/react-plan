@@ -7,19 +7,15 @@ class Item extends React.Component {
     super(props);
     this.state = {
       breakpoints: Object.assign({}, defaultBreakpoints, this.props.breakpoints),
-      breakpoint: null
+      breakpoint: window._REACT_PLAN_BREAKPOINT
     };
   }
 
   componentWillMount() {
-    this.mounted = true;
-    this.windowResizeHandler();
-    window.addEventListener('resize', this.windowResizeHandler.bind(this));
-  }
-
-  componentStyle(breakpoint) {
-    //Sends a warning if responsive props are used withoyt using the Responsive Component
-    if(!breakpoint) {
+    if(this.state.breakpoint) {
+      window.addEventListener('breakpoint', this.handleBreakpointEvent);
+    }
+    else {
       let parentName;
       try {
         parentName = ` (Parent name: ${this
@@ -30,10 +26,24 @@ class Item extends React.Component {
           .__proto__
           .constructor.name})`;
       }
-      catch(e) {console.log(e.message);}
+      catch(e) {console.error(e.message);}
       warning(`Couldn\'t find breakpoints${parentName}`);
     }
-    let BreakpointProp = this.props[breakpoint];
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('breakpoint', this.handleBreakpointEvent);
+  }
+
+  handleBreakpointEvent = ( e ) => {
+    this.setState({
+      breakpoint: e.detail
+    });
+  }
+
+  componentStyle(breakpoint) {
+    //Sends a warning if responsive props are used withoyt using the Responsive Component
+    const BreakpointProp = this.props[breakpoint];
     //If the matching breakpoint is set to 'hide', we skip styling and rendering the children.
     if(BreakpointProp === 'hide' && breakpoint) {
       return null;
@@ -64,23 +74,6 @@ class Item extends React.Component {
     }
   }
 
-  matchMediaQuery() {
-    return Object.keys(this.state.breakpoints).filter((breakpoint)=>{
-      return (window.matchMedia(this.state.breakpoints[breakpoint]).matches);
-    });
-  }
-
-  windowResizeHandler() {
-    if(this.mounted === true){
-    let breakpoint = this.matchMediaQuery().slice(-1)[0];
-    if(breakpoint !== this.state.breakpoint){
-      this.setState({
-        breakpoint: breakpoint
-      });
-    }
-    }
-  }
-
   render() {
     let breakpoint = this.state.breakpoint;
     let style = this.componentStyle(breakpoint);
@@ -101,8 +94,21 @@ class Item extends React.Component {
       :
       this.props.children;
 
-    let props = Object.assign({}, this.props, {className: className, style: style});
-    return (style) ? <div {...props}>{children}</div> : null;
+    const {
+      align,
+      debug,
+      itemDefaults,
+      justify,
+      noWrap,
+      order,
+      reverse,
+      size,
+      ...otherProps
+    } = this.props;
+
+    const props = Object.assign({}, this.otherProps, {className: className, style: style});
+    console.log(props);
+    return (style) ? <div {...props}>{ children }</div> : null;
   }
 }
 

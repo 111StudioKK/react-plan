@@ -1,32 +1,28 @@
-import {Component, Children, PropTypes} from 'react'
 
-class Responsive extends Component {
-  getChildContext() {
-    return { breakpoint: this.state.breakpoint };
+import 'custom-event-polyfill';
+import { defaultBreakpoints } from './utils.js';
+
+export default class Responsive {
+
+  constructor() {
+    this.breakpoint = null;
+    this.windowResizeHandler();
+    window._REACT_PLAN_BREAKPOINT = this.breakpoint;
+    window.addEventListener('resize', this.windowResizeHandler);
   }
 
-  constructor(props) {
-    super(props);
+  matchMediaQuery() {
+    return Object.keys(defaultBreakpoints).filter((breakpoint)=>{
+      return (window.matchMedia(defaultBreakpoints[breakpoint]).matches);
+    });
   }
 
-  componentDidMount() {
-    console.warn('Responsive is not required anymore, instead Items, Columns and Rows handle beakpoint changes internally');
+  windowResizeHandler = () => {
+    let breakpoint = this.matchMediaQuery().slice(-1)[0];
+    if(breakpoint !== this.breakpoint){
+      this.breakpoint = breakpoint;
+      const event = new CustomEvent('breakpoint', { 'detail': this.breakpoint });
+      window.dispatchEvent(event);
+    }
+    }
   }
-
-  render() {
-    const { children } = this.props;
-    return Children.only(children);
-  }
-}
-
-Responsive.propTypes = {
-  children: PropTypes.element.isRequired,
-  breakpoints: PropTypes.shape({
-    mobile: PropTypes.number,
-    tablet: PropTypes.number,
-    laptop: PropTypes.number,
-    desktop: PropTypes.number
-  })
-}
-
-export default Responsive;

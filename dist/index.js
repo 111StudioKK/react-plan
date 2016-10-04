@@ -124,6 +124,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Item).call(this, props));
 
+	    _this.windowResizeHandler = function () {
+
+	      if (_this.mounted === true) {
+	        var breakpoint = _this.matchMediaQuery().slice(-1)[0];
+	        if (breakpoint !== _this.state.breakpoint) {
+	          _this.setState({
+	            breakpoint: breakpoint
+	          });
+	        }
+	      }
+	    };
+
 	    _this.state = {
 	      breakpoints: Object.assign({}, _utils.defaultBreakpoints, _this.props.breakpoints),
 	      breakpoint: null
@@ -136,7 +148,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function componentWillMount() {
 	      this.mounted = true;
 	      this.windowResizeHandler();
-	      window.addEventListener('resize', this.windowResizeHandler.bind(this));
+	      window.addEventListener('resize', this.windowResizeHandler);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.mounted = false;
 	    }
 	  }, {
 	    key: 'componentStyle',
@@ -187,18 +204,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return Object.keys(this.state.breakpoints).filter(function (breakpoint) {
 	        return window.matchMedia(_this2.state.breakpoints[breakpoint]).matches;
 	      });
-	    }
-	  }, {
-	    key: 'windowResizeHandler',
-	    value: function windowResizeHandler() {
-	      if (this.mounted === true) {
-	        var breakpoint = this.matchMediaQuery().slice(-1)[0];
-	        if (breakpoint !== this.state.breakpoint) {
-	          this.setState({
-	            breakpoint: breakpoint
-	          });
-	        }
-	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -314,13 +319,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Responsive = function (_Component) {
 	  _inherits(Responsive, _Component);
-
-	  _createClass(Responsive, [{
-	    key: 'getChildContext',
-	    value: function getChildContext() {
-	      return { breakpoint: this.state.breakpoint };
-	    }
-	  }]);
 
 	  function Responsive(props) {
 	    _classCallCheck(this, Responsive);

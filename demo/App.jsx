@@ -2,7 +2,6 @@ import React from 'react';
 import Row from '../src/Row.jsx';
 import Column from '../src/Column.jsx';
 import Item from '../src/Item.jsx';
-import BreakpointWatcher from './BreakpointWatcher.jsx'
 // import Readme from '../README.md';
 
 export default class App extends React.Component {
@@ -17,14 +16,14 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Column>
+      <Column justify="center">
         <Row className="header" align="center">
           <span className="watcher"></span>
-          <Item size="66%" mobile="100%" className="hero">
+          <Item size="66%" small="hide" className="hero">
             <h1><span className="type"></span><span className="cursor">|</span></h1>
             <h2></h2>
           </Item>
-          <Item mobile="100%" className="repo-link">
+          <Item small="100%" className="repo-link">
             <a href="https://github.com/111StudioKK/react-plan" className="button"><span><small>View project on</small> GitHub</span></a>
           </Item>
         </Row>
@@ -32,7 +31,7 @@ export default class App extends React.Component {
           <Item size={3}>
             <div dangerouslySetInnerHTML={this.documentation()}></div>
           </Item>
-          <Item className="menu" size={1} align="stretch" mobile="hide" tablet="hide">
+          <Item className="menu" size={1} align="stretch" small="hide" medium="hide" >
             <div>
               <ul>
                 <li><a href="#">Documentation</a></li>
