@@ -13,28 +13,6 @@ npm i --save react-plan
 ```
 ##USAGE
 
-###Responsive breakpoint listener
-First step is to wrap your react application with the Responsive listener.
-
-```javascript
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Responsive} from 'react-plan';
-import App from './App.jsx';
-
-ReactDOM.render(<Responsive><App /></Responsive>, document.getElementById('root'));
-```
-
-By default the responsive breakpoints available are :
-
-1.  small: min-width: 0em
-2.  medium: min-width: 48em
-3.  large: min-width: 62em
-4.  wide: min-width: 75em
-
-The ```Responsive``` class listens to the window size changes and dispatch the current breakpoint to react-plan's containers and items. (see below)
-
-**Note:** Using the responsive helper is not mandatory, you can use the Containers and Items Component alone.
 ###Containers (Rows & columns)
 The container classes, ```Rows``` and ```Colums``` create [flex containers](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) DOM elements. They share the same props, the only difference betwwen the two is that they have the flex-direction attribute set to row or column by default.
 
@@ -71,26 +49,5 @@ Available props:
 | large        	| Number or String 	| Sets and override the size property when the large breakpoint is active.                                                                      	| When set to 'hide', it prevents rendering the children when the large breakpoint is active.                                                                         	|
 | wide        	| Number or String 	| Sets and override the size property when the wide breakpoint is active.                                                                      	| When set to 'hide', it prevents rendering the children when the wide breakpoint is active.                                                                         	|
 
-
-###Listening to the breakpoints in your components
-Behind the scenes, ```Responsive``` uses React's context. If you wish to subscribe your component to the breakpoint change, all you need to do is to add the breakpoint context type to your component.
-
-```javascript
-import React from 'react';
-
-class MyComponent extends React.Component {
-
-  constructor(props, context) {
-    //The current breakpoint is availble in context.breakpoint
-    //an is also passed in all the component's lifecycle methods
-    //described here https://facebook.github.io/react/docs/context.html#referencing-context-in-lifecycle-methods
-  }
-
-}
-
-MyComponent.contextTypes = {
-  breakpoint: React.PropTypes.string
-};
-```
 ##CONTRIBUTE
 //TODO

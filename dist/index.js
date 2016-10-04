@@ -61,7 +61,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.Viewport = exports.Row = exports.Responsive = exports.Item = exports.Column = undefined;
 
-	var _Column = __webpack_require__(4);
+	var _Column = __webpack_require__(3);
 
 	var _Column2 = _interopRequireDefault(_Column);
 
@@ -69,15 +69,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Item2 = _interopRequireDefault(_Item);
 
-	var _Responsive = __webpack_require__(5);
+	var _Responsive = __webpack_require__(4);
 
 	var _Responsive2 = _interopRequireDefault(_Responsive);
 
-	var _Row = __webpack_require__(6);
+	var _Row = __webpack_require__(5);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
-	var _Viewport = __webpack_require__(7);
+	var _Viewport = __webpack_require__(6);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
@@ -106,7 +106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _utils = __webpack_require__(3);
+	var _utils = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -119,13 +119,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Item = function (_React$Component) {
 	  _inherits(Item, _React$Component);
 
-	  function Item(props, context) {
+	  function Item(props) {
 	    _classCallCheck(this, Item);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Item).call(this, props, context));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Item).call(this, props));
+
+	    _this.state = {
+	      breakpoints: Object.assign({}, _utils.defaultBreakpoints, _this.props.breakpoints),
+	      breakpoint: null
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Item, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.mounted = true;
+	      this.windowResizeHandler();
+	      window.addEventListener('resize', this.windowResizeHandler.bind(this));
+	    }
+	  }, {
 	    key: 'componentStyle',
 	    value: function componentStyle(breakpoint) {
 	      //Sends a warning if responsive props are used withoyt using the Responsive Component
@@ -167,18 +180,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }, {
-	    key: 'render',
-	    value: function render() {
+	    key: 'matchMediaQuery',
+	    value: function matchMediaQuery() {
 	      var _this2 = this;
 
-	      var breakpoint = this.context.breakpoint;
+	      return Object.keys(this.state.breakpoints).filter(function (breakpoint) {
+	        return window.matchMedia(_this2.state.breakpoints[breakpoint]).matches;
+	      });
+	    }
+	  }, {
+	    key: 'windowResizeHandler',
+	    value: function windowResizeHandler() {
+	      if (this.mounted === true) {
+	        var breakpoint = this.matchMediaQuery().slice(-1)[0];
+	        if (breakpoint !== this.state.breakpoint) {
+	          this.setState({
+	            breakpoint: breakpoint
+	          });
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      var breakpoint = this.state.breakpoint;
 	      var style = this.componentStyle(breakpoint);
 	      var className = this.props.className ? this.props.className + ' ' + breakpoint : breakpoint;
 	      var children = this.props.itemDefaults && this.direction ? _react2.default.Children.map(this.props.children, function (child) {
 	        if (_utils.planTypes.includes(child.type.name)) {
-	          var _props = Object.assign({}, _this2.props.itemDefaults, child.props);
-	          _props.className = [_this2.props.itemDefaults.className, child.props.className].join(' ').trim();
-	          _props.style = Object.assign({}, _this2.props.itemDefaults.style, child.props.style);
+	          var _props = Object.assign({}, _this3.props.itemDefaults, child.props);
+	          _props.className = [_this3.props.itemDefaults.className, child.props.className].join(' ').trim();
+	          _props.style = Object.assign({}, _this3.props.itemDefaults.style, child.props.style);
 	          return _react2.default.cloneElement(child, _props);
 	        } else {
 	          return child;
@@ -196,10 +230,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return Item;
 	}(_react2.default.Component);
-
-	Item.contextTypes = {
-	  breakpoint: _react2.default.PropTypes.string
-	};
 
 	Item.propTypes = {
 	  align: _react2.default.PropTypes.oneOf(_utils.flexAlignments),
@@ -225,35 +255,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.warning = warning;
-	var flexAlignments = exports.flexAlignments = ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'];
-
-	var flexJustifications = exports.flexJustifications = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around'];
-
-	var planTypes = exports.planTypes = ['Item', 'Column', 'Row'];
-
-	var defaultBreakpoints = exports.defaultBreakpoints = {
-	  small: '(min-width: 0em)',
-	  medium: '(min-width: 48em)',
-	  large: '(min-width: 62em)',
-	  wide: '(min-width: 75em)'
-	};
-
-	function warning(message) {
-	  if ((undefined) !== 'production') {
-	    console.warn(message);
-	  }
-	}
-
-/***/ },
-/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -292,7 +293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Column;
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -304,8 +305,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(2);
-
-	var _utils = __webpack_require__(3);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -323,50 +322,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }]);
 
-	  function Responsive(props, context) {
+	  function Responsive(props) {
 	    _classCallCheck(this, Responsive);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Responsive).call(this, props, context));
-
-	    _this.state = {
-	      breakpoints: Object.assign({}, _utils.defaultBreakpoints, _this.props.breakpoints),
-	      breakpoint: null
-	    };
-	    return _this;
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Responsive).call(this, props));
 	  }
 
 	  _createClass(Responsive, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.mounted = true;
-	      this.windowResizeHandler();
-	      window.addEventListener('resize', this.windowResizeHandler.bind(this));
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      this.mounted = false;
-	    }
-	  }, {
-	    key: 'matchMediaQuery',
-	    value: function matchMediaQuery() {
-	      var _this2 = this;
-
-	      return Object.keys(this.state.breakpoints).filter(function (breakpoint) {
-	        return window.matchMedia(_this2.state.breakpoints[breakpoint]).matches;
-	      });
-	    }
-	  }, {
-	    key: 'windowResizeHandler',
-	    value: function windowResizeHandler() {
-	      if (this.mounted === true) {
-	        var breakpoint = this.matchMediaQuery().slice(-1)[0];
-	        if (breakpoint !== this.state.breakpoint) {
-	          this.setState({
-	            breakpoint: breakpoint
-	          });
-	        }
-	      }
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.warn('Responsive is not required anymore, instead Items, Columns and Rows handle beakpoint changes internally');
 	    }
 	  }, {
 	    key: 'render',
@@ -390,14 +355,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  })
 	};
 
-	Responsive.childContextTypes = {
-	  breakpoint: _react.PropTypes.string
-	};
-
 	exports.default = Responsive;
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -436,7 +397,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Row;
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -464,6 +425,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	exports.default = Viewport;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.warning = warning;
+	var flexAlignments = exports.flexAlignments = ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'];
+
+	var flexJustifications = exports.flexJustifications = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around'];
+
+	var planTypes = exports.planTypes = ['Item', 'Column', 'Row'];
+
+	var defaultBreakpoints = exports.defaultBreakpoints = {
+	  small: '(min-width: 0em)',
+	  medium: '(min-width: 48em)',
+	  large: '(min-width: 62em)',
+	  wide: '(min-width: 75em)'
+	};
+
+	function warning(message) {
+	  if ((undefined) !== 'production') {
+	    console.warn(message);
+	  }
+	}
 
 /***/ }
 /******/ ])

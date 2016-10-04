@@ -1,9 +1,20 @@
 import React from 'react'
-import {planTypes, flexJustifications, flexAlignments, warning} from './utils.js';
+import {defaultBreakpoints, planTypes, flexJustifications, flexAlignments, warning} from './utils.js';
 
 class Item extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      breakpoints: Object.assign({}, defaultBreakpoints, this.props.breakpoints),
+      breakpoint: null
+    };
+  }
+
+  componentWillMount() {
+    this.mounted = true;
+    this.windowResizeHandler();
+    window.addEventListener('resize', this.windowResizeHandler.bind(this));
   }
 
   componentStyle(breakpoint) {
@@ -53,8 +64,25 @@ class Item extends React.Component {
     }
   }
 
+  matchMediaQuery() {
+    return Object.keys(this.state.breakpoints).filter((breakpoint)=>{
+      return (window.matchMedia(this.state.breakpoints[breakpoint]).matches);
+    });
+  }
+
+  windowResizeHandler() {
+    if(this.mounted === true){
+    let breakpoint = this.matchMediaQuery().slice(-1)[0];
+    if(breakpoint !== this.state.breakpoint){
+      this.setState({
+        breakpoint: breakpoint
+      });
+    }
+    }
+  }
+
   render() {
-    let breakpoint = this.context.breakpoint;
+    let breakpoint = this.state.breakpoint;
     let style = this.componentStyle(breakpoint);
     let className = (this.props.className) ? `${this.props.className} ${breakpoint}` : breakpoint;
     let children = (this.props.itemDefaults && this.direction) ?
@@ -77,10 +105,6 @@ class Item extends React.Component {
     return (style) ? <div {...props}>{children}</div> : null;
   }
 }
-
-Item.contextTypes = {
-  breakpoint: React.PropTypes.string
-};
 
 Item.propTypes = {
   align: React.PropTypes.oneOf(flexAlignments),

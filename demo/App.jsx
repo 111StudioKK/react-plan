@@ -19,7 +19,7 @@ export default class App extends React.Component {
     return (
       <Column>
         <Row className="header" align="center">
-          <span className="watcher"><BreakpointWatcher /></span>
+          <span className="watcher"></span>
           <Item size="66%" mobile="100%" className="hero">
             <h1><span className="type"></span><span className="cursor">|</span></h1>
             <h2></h2>

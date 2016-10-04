@@ -1,6 +1,6 @@
 {
   "name": "react-plan",
-  "version": "0.4.2",
+  "version": "1.0.0",
   "description": "A React Responsive Layout Library based on flexbox.",
   "main": "dist/index.js",
   "scripts": {
