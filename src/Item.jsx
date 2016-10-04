@@ -107,7 +107,6 @@ class Item extends React.Component {
     } = this.props;
 
     const props = Object.assign({}, this.otherProps, {className: className, style: style});
-    console.log(props);
     return (style) ? <div {...props}>{ children }</div> : null;
   }
 }
