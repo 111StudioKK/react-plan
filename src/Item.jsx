@@ -103,6 +103,10 @@ class Item extends React.Component {
       order,
       reverse,
       size,
+      small,
+      medium,
+      large,
+      wide,
       ...otherProps
     } = this.props;
 
