@@ -9,7 +9,18 @@ class Item extends React.Component {
   componentStyle(breakpoint) {
     //Sends a warning if responsive props are used withoyt using the Responsive Component
     if(!breakpoint) {
-      warning('Couldn\'t find breakpoints');
+      let parentName;
+      try {
+        parentName = ` (Parent name: ${this
+          ._reactInternalInstance
+          ._currentElement
+          ._owner
+          ._instance
+          .__proto__
+          .constructor.name})`;
+      }
+      catch(e) {console.log(e.message);}
+      warning(`Couldn\'t find breakpoints${parentName}`);
     }
     let BreakpointProp = this.props[breakpoint];
     //If the matching breakpoint is set to 'hide', we skip styling and rendering the children.

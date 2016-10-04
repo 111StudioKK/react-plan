@@ -1,11 +1,11 @@
 {
   "name": "react-plan",
-  "version": "0.3.4",
+  "version": "0.4.2",
   "description": "A React Responsive Layout Library based on flexbox.",
   "main": "dist/index.js",
   "scripts": {
     "dist": "webpack --config webpack.dist.js",
-    "dev": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0 --devtool eval --progress --colors --hot --content-base demo",
+    "dev": "webpack-dev-server --config webpack.dev.js --progress",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -34,19 +34,25 @@
     "eslint": "2.7.0",
     "eslint-plugin-react": "4.3.0",
     "file-loader": "0.8.5",
+    "html-loader": "0.4.3",
     "html-webpack-plugin": "2.15.0",
     "json-loader": "0.5.4",
     "less": "2.6.1",
     "less-loader": "2.2.3",
+    "markdown-loader": "0.1.7",
     "react-hot-loader": "1.3.0",
     "style-loader": "0.13.1",
-    "webpack": "1.12.14",
-    "webpack-dev-server": "1.14.1",
-    "html-loader": "0.4.3",
-    "markdown-loader": "0.1.7"
+    "webpack": "1.13.1",
+    "webpack-dev-server": "1.14.1"
   },
   "peerDependencies": {
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0"
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
   }
 }

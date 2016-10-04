@@ -130,7 +130,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function componentStyle(breakpoint) {
 	      //Sends a warning if responsive props are used withoyt using the Responsive Component
 	      if (!breakpoint) {
-	        (0, _utils.warning)('Couldn\'t find breakpoints');
+	        var parentName = void 0;
+	        try {
+	          parentName = ' (Parent name: ' + this._reactInternalInstance._currentElement._owner._instance.__proto__.constructor.name + ')';
+	        } catch (e) {
+	          console.log(e.message);
+	        }
+	        (0, _utils.warning)('Couldn\'t find breakpoints' + parentName);
 	      }
 	      var BreakpointProp = this.props[breakpoint];
 	      //If the matching breakpoint is set to 'hide', we skip styling and rendering the children.
@@ -170,17 +176,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var className = this.props.className ? this.props.className + ' ' + breakpoint : breakpoint;
 	      var children = this.props.itemDefaults && this.direction ? _react2.default.Children.map(this.props.children, function (child) {
 	        if (_utils.planTypes.includes(child.type.name)) {
-	          var props = Object.assign({}, _this2.props.itemDefaults, child.props);
-	          props.className = [_this2.props.itemDefaults.className, child.props.className].join(' ').trim();
-	          props.style = Object.assign({}, _this2.props.itemDefaults.style, child.props.style);
-	          return _react2.default.cloneElement(child, props);
+	          var _props = Object.assign({}, _this2.props.itemDefaults, child.props);
+	          _props.className = [_this2.props.itemDefaults.className, child.props.className].join(' ').trim();
+	          _props.style = Object.assign({}, _this2.props.itemDefaults.style, child.props.style);
+	          return _react2.default.cloneElement(child, _props);
 	        } else {
 	          return child;
 	        }
 	      }) : this.props.children;
+
+	      var props = Object.assign({}, this.props, { className: className, style: style });
 	      return style ? _react2.default.createElement(
 	        'div',
-	        { className: className, style: style },
+	        props,
 	        children
 	      ) : null;
 	    }
@@ -330,13 +338,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Responsive, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
+	      this.mounted = true;
 	      this.windowResizeHandler();
 	      window.addEventListener('resize', this.windowResizeHandler.bind(this));
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      window.removeEventListener(this.windowResizeHandler);
+	      this.mounted = false;
 	    }
 	  }, {
 	    key: 'matchMediaQuery',
@@ -350,11 +359,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'windowResizeHandler',
 	    value: function windowResizeHandler() {
-	      var breakpoint = this.matchMediaQuery().slice(-1)[0];
-	      if (breakpoint !== this.state.breakpoint) {
-	        this.setState({
-	          breakpoint: breakpoint
-	        });
+	      if (this.mounted === true) {
+	        var breakpoint = this.matchMediaQuery().slice(-1)[0];
+	        if (breakpoint !== this.state.breakpoint) {
+	          this.setState({
+	            breakpoint: breakpoint
+	          });
+	        }
 	      }
 	    }
 	  }, {

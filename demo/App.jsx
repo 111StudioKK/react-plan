@@ -3,7 +3,6 @@ import Row from '../src/Row.jsx';
 import Column from '../src/Column.jsx';
 import Item from '../src/Item.jsx';
 import BreakpointWatcher from './BreakpointWatcher.jsx'
-import Package from '../package.json';
 // import Readme from '../README.md';
 
 export default class App extends React.Component {
@@ -22,8 +21,8 @@ export default class App extends React.Component {
         <Row className="header" align="center">
           <span className="watcher"><BreakpointWatcher /></span>
           <Item size="66%" mobile="100%" className="hero">
-            <h1><span className="type">{Package.name}</span><span className="cursor">|</span></h1>
-            <h2>{Package.description}</h2>
+            <h1><span className="type"></span><span className="cursor">|</span></h1>
+            <h2></h2>
           </Item>
           <Item mobile="100%" className="repo-link">
             <a href="https://github.com/111StudioKK/react-plan" className="button"><span><small>View project on</small> GitHub</span></a>
